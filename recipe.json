@@ -1,0 +1,33 @@
+{
+    "RecipeFormatVersion": "2020-01-25",
+    "ComponentName": "",
+    "ComponentVersion": "1.0.0",
+    "ComponentDescription": "Deploy a custom flow for nodered",
+    "ComponentPublisher": "Amazon Web Services",
+    "ComponentDependencies": {
+      "com.example.nodered": {
+        "VersionRequirement": ">0.0.0",
+        "DependencyType": "HARD"
+      }
+    },
+    "ComponentConfiguration" :{
+      "DefaultConfiguration": {
+        "port" : 1881
+      }
+    },
+    "Manifests": [
+      {
+        "Lifecycle": {
+          "Run": {
+            "Script": "FOLDER=$(ls {artifacts:decompressedPath}/)\nchmod 755 {artifacts:decompressedPath}/$FOLDER/*\ncp {artifacts:decompressedPath}/$FOLDER/* {com.example.nodered:work:path}/data\ncp {com.example.nodered:work:path}/data/flow.json {com.example.nodered:work:path}/data/flows.json\ncp {com.example.nodered:work:path}/data/flow_cred.json {com.example.nodered:work:path}/data/flows_cred.json\ncd {com.example.nodered:work:path}\nnode installFlow.js {configuration:/port}"
+          }
+        },
+        "Artifacts": [
+          {
+            "URI": "",
+            "Unarchive": "ZIP"
+          }
+        ]
+      }
+    ]
+  }
